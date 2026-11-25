@@ -10,9 +10,9 @@ import os
 import sys
 
 ENTRY = (
-    "Monday review: woke up tired, inbox already angry, "
+    "Monday, one star: my alarm gave up, my inbox declared war, "
     "and my 9 a.m. meeting could have been an email. "
-    "One star, would not Monday again."
+    "Would not Monday again."
 )
 
 MAX_CHARS = 200
@@ -27,6 +27,11 @@ def validate(text: str) -> None:
         raise ValueError("entry must be a single line")
     if len(text) > MAX_CHARS:
         raise ValueError(f"entry is {len(text)} chars, over the {MAX_CHARS} limit")
+    if len(text) < 1:
+        raise ValueError("entry is empty")
+    # A review of a real Monday needs a concrete detail, not generic tiredness.
+    if not any(word in text.lower() for word in ("inbox", "meeting", "alarm", "commute", "coffee", "monday")):
+        raise ValueError("entry names no concrete detail of the Monday")
     text.encode("utf-8")  # must be valid UTF-8
 
 
